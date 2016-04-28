@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block jumbotron %}
+{{scor}}
+
+<style>
+{% block style %}
+
+
+.users {
+  table-layout: fixed;
+  width: 100%;
+  white-space: nowrap;
+}
+.users td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Column widths are based on these cells */
+.row-url {
+  width: 70%;
+}
+.row-da {
+  width: 25%;
+}
+.row-pa {
+  width: 25%;
+}
+.users td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.users th {
+  background: darkgreen;
+  color: white;
+}
+.users td,
+.users th {
+  text-align: left;
+  padding: 5px 10px;
+}
+.users tr:nth-child(even) {
+  background: lightgreen;
+
+}
+
+}
+{% endblock %}
+</style>
+
+<h1><b>HISTORY </b></h1>
+
+<table class="users">
+  <thead>
+<tr>
+<th class="row-1 row-url">URL</th>
+<th class="row-1 row-url">Visited at</th>
+</tr>
+</thead>
+{% for detail in url1 %}
+<tr>
+ <td><h5> <a href="{{detail.myurl}}">{{detail.myurl}}</h5></td>
+  <td><h5> {{detail.timestamp}}</h5></td>
+ {% endfor %}
+
+</tr>
+</table>
+{% endblock %}
+

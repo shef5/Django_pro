@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block head_title %}Welcome | {% endblock %}
+
+<style>
+{% block style %}
+
+.navbar-static-top {
+ margin-bottom: 0px !important;
+}
+.jumbotron {
+ background-color: #0E3D14;
+ background-image:url(//d3dmykktyp55kz.cloudfront.net/fe/public/hero-2-7ca39f0c96.jpg);
+ color : ##413A54; 
+ /*background-repeat: no-repeat !important;
+ background-size: contain !important;*/
+ -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.brand {height: 25px;}
+.users {
+  table-layout: fixed;
+  width: 100%;
+  white-space: nowrap;
+}
+.users td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Column widths are based on these cells */
+.row-url {
+  width: 70%;
+}
+.row-da {
+  width: 25%;
+}
+.row-pa {
+  width: 25%;
+}
+.users td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.users th {
+  background: darkgreen;
+  color: white;
+}
+.users td,
+.users th {
+  text-align: left;
+  padding: 5px 10px;
+}
+.users tr:nth-child(even) {
+  background: lightgreen;
+
+
+}
+.form {
+  padding: 40px;
+  width: 600px;
+  height: 200px;
+  margin: 40px auto;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+}
+.h1 {
+  font-size:14px;
+     height:50px;}
+}
+{% endblock %}
+</style>
+ {% block jumbotron %}
+ {% if request.user.is_authenticated %}
+ <div class = "jumbotron">
+    <div class ="container">
+      <div class ="row">
+        <div class ='col-sm-6'>
+          <h1 align="left">Website Analyser</h1>
+          <p align="left">
+          The complete analyzed, sophisticated <br/>
+          and user friendly way to check or analyze<br/> 
+          a website for a long run purchase.
+          </p>
+        </div>
+        <div class='col-sm-3'>
+          <p align="center"> Welcome {{ user }} </p>
+          <p align='center'>Click to see your history.</p>
+          <p align='center'>
+          <a class = "btn btn-lg btn-success" href = "{% url 'history' %}" role="button">View History &raquo;</a>
+          </p>
+        </div>
+      </div>
+    </div>
+ </div>
+
+ {% else %}
+ <!-- <div class = "jumbotron">
+      <h1 align = "center">First you need to log in!!!</h1>
+      <div style="text-align: center">
+      <a class = "btn btn-lg btn-success" align="center" href = "http://127.0.0.1:8000/accounts/login/" role="button">Login</a>
+      </div>
+      </p>
+      </div>
+ -->
+<div class = "jumbotron">
+    <div class ="container">
+      <div class ="row">
+        <div class ='col-sm-6'>
+          <h1>Website Analyser</h1>
+          <p class = "lead" align="left">
+          The complete analyzed, sophisticated<br/>
+           and user friendly way to check or analyze<br/>
+            a website for a long run purchase. 
+          </p>
+        </div>
+        <div class = 'col-sm-3'>
+          <p align="center">Join us by clicking on the link below</p>
+          <p align="center">
+          <a class = "btn btn-lg btn-success" href = "http://127.0.0.1:8000/accounts/register/" role="button">Join Us &raquo;</a>
+          </p>
+          <p align="center">Already a member? <br>
+          Just enter your credentials in the login bar and Login</p>
+        </div>
+      </div>
+    </div>
+ </div>
+ {% endif %}
+ {% endblock %} 
+
+ {% block mycontent %}
+ <h2 align="center">The Entrepreneur’s Website Checker</h2>
+ <p align="center">Enter the url in the textbox below.</p>
+ <!-- <div class='form' align="center" > -->
+
+  <div class='col-md-6 col-md-offset-3 column' align="center" >
+ <form method='POST' action=''>{% csrf_token %}
+ {{ form|crispy }}
+ <input type='submit' value = 'SUBMIT' align = "center" class = 'btn btn-default' action= '' name='mybtn'>
+            
+            <!--  <input type ='text' align = "center" class='form-control' name='url' placeholder='Your URL' required pattern="https?://.+" /> --> 
+       
+             <!-- <button type='submit' align = "center"  class='btn btn-default'>SUBMIT</button> -->
+ </form>          
+ </div> 
+
+ <form method='POST' action=''>{% csrf_token %}
+ <div class='col-md-3 col-md-offset-2 column' align = 'center'>
+ <!-- <input type='text' align="center" class='btn btn-default' placeholder = 'Monthly Revenue' id="revenue">
+ --> </div>
+ <div class='col-md-3 col-md-offset-2 column' align = 'center'>
+<!--  <input type='text' align="center" class='btn btn-default' placeholder = 'Price' id="Price"> -->
+ </div>
+ <div class='col-md-3 col-md-offset-4 column' align = 'center'>
+ <!-- <input type='submit' align="center" class='btn btn-default' value="Submit"> -->
+ </div>
+ </form>
+
+ {% if detail %}
+ <!-- {% for details in detail %}
+ <h5>{{ details.apiurl }} : {{details.da}}</h5>
+
+{% endfor %} -->
+
+<table class="users">
+  <thead>
+<tr>
+<th class="row-1 row-url">URL</th>
+<th class="row-da">Domain Authority</th>
+<th class="row-pa">Page Authority</th>
+</tr>
+</thead>
+{% for details in detail %}
+<tr>
+ <td><h5> <a href="{{details.apiurl}}">{{details.apiurl}}</h5></td>
+ 
+ <td><h5> {{details.da}}</h5></td>
+ <td><h5> {{details.pa}}</h5></td>
+
+</tr>
+{% endfor %}
+</table>
+
+ {% endif %}
+ {% endblock %}
