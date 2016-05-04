@@ -8,8 +8,10 @@ from django.db import models
 # Create your models here.
 class URL(models.Model):
  myurl = models.URLField()
- price = models.CharField(max_length=6, blank=True, null=True)
- revenue = models.CharField(max_length=6, blank=True, null=True)
+ price = models.IntegerField(null=True,blank=True)
+ revenue = models.IntegerField(null=True,blank=True)
+ d_a = models.IntegerField(null=True,blank=True)
+ p_a = models.IntegerField(null=True,blank=True)
  timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
  updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
@@ -21,8 +23,8 @@ class API(models.Model):
  apiurl = models.URLField()
  nofollow = models.NullBooleanField()
  mainurl = models.URLField(default ='')
- da = models.CharField(max_length=3, blank=True, null=True)
- pa = models.CharField(max_length=3, blank=True, null=True)
+ da = models.IntegerField(null=True,blank=True)
+ pa = models.IntegerField(null=True,blank=True)
 
  timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
  updated = models.DateTimeField(auto_now_add=False, auto_now=True)
