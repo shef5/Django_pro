@@ -61,9 +61,13 @@ def home(request):
     output = json.loads(abc)
     pa = output['upa']
     da = output['pda']
+    print("domain pa"+str(pa))
+    print("domain da"+str(da))
     print (json.dumps(output))
     URL(myurl=myurl,d_a=output['pda'],p_a=output['upa']).save()
-    urlData2 = "http://api.semrush.com/analytics/v1/?key=0656b4e1326c95a92c56cc7f188b5a71&target="+myurl+"&type=backlinks&target_type=url&display_limit=4&export_columns=nofollow,source_url,external_num&display_sort=page_score_desc"
+    myurl = myurl.replace("www.","")
+    print(myurl)
+    urlData2 = "http://api.semrush.com/analytics/v1/?key=0656b4e1326c95a92c56cc7f188b5a71&target="+myurl+"&type=backlinks&target_type=url&display_limit=5&export_columns=nofollow,source_url,external_num&display_sort=page_score_desc"
     #urlData2 = "http://api.semrush.com/?type=domain_organic&key=acdf8d05751c2b18b79f7dfcb62ba3b8&display_filter=%2B%7CPh%7CCo%7Cseo&output=json&display_limit=10&export_columns=Ph,Po,Nq,Tr&domain=blog.ahrefs.com&display_sort=tr_desc&database=us"
     urlData3 = "http://api.semrush.com/?type=domain_organic&key=0656b4e1326c95a92c56cc7f188b5a71&display_limit=10&export_columns=Nq&domain="+myurl+"&display_sort=tr_desc&database=us"
     #urlData3 = "http://api.semrush.com/analytics/v1/?key=acdf8d05751c2b18b79f7dfcb62ba3b8&target=blog.ahrefs.com&type=backlinks&target_type=root_domain"
@@ -86,8 +90,10 @@ def home(request):
     mylist1 = []
     total_val = 0
     data2 = list(datareader1)
+    print(data2)
     print (data2[1][0])
     text = data2[1][0]
+    print (text)
     x=len(data2)
     print(x)
     words = text.split(";")
@@ -107,7 +113,7 @@ def home(request):
     
     #print ("shef")
     # for r in datareader:
-    # 	print (r)
+    #   print (r)
 
     #for row in data2:
     #print("\n".join(row))
@@ -116,9 +122,13 @@ def home(request):
     #parsed = json.loads(jsonStr)
     our_pa =  0
     our_da = 0
-    for i in range(x):
+    i = 2
+    for i in range(1,x):
       text=data2[i][0]
+      print(i)
+      print (text)
       words = text.split(";")
+      print("word is "+words[1])
       c = 1
       
       if words[2] < '40' and words[0] == 'True':
@@ -126,9 +136,11 @@ def home(request):
         templist.append(words[1])
       else:
         print('Hello')
+
+
       # expires = time.time() + 300
       # username = 'mayank'
-      # stringtosign = ACCESS_ID+"\n"+str(expires)
+      # stringtosign = ACCESS_ID+"\n"+str(expires)r
       # binarySig = hmac.new(SECRET_KEY, stringtosign, sha1)
       # urlsafeSig = urllib2.urlopen("binarySig")
       # page = response.read(urlsafeSig)
@@ -156,20 +168,30 @@ def home(request):
       output = json.loads(abc)
       print (json.dumps(output))
       our_pa = our_pa + output['upa']
+      our_pa = our_pa/c
       print (our_pa)
       our_da = our_da + output['pda']
       API(apiurl=words[1], nofollow=words[0], mainurl=myurl, da=output['pda'],pa=output['upa']).save()
-    print (our_pa)
+    print ("ourpa is"+str(our_pa))
     print (our_da)
     if our_pa/c > 20.0:
        counter += 1
+       print("c is"+str(c))
        print ("counter 1")
     #total_val = 35760
     visitor_val = 0.2
     earnings = (total_val*0.3)*visitor_val
-    if da*0.3 + pa*0.2 > 11:
-      counter += 1
-      print ("counter 2")
+    print("earnings"+str(earnings))
+    traffic = total_val*0.3
+    print("traffic"+str(traffic))
+    if pa == 1:
+      if da > 15:
+        counter+= 1
+    elif da*.3 + pa*.2 > 8:
+        counter +=1
+    # if da*0.3 + pa*0.2 > 7:
+    #   counter += 1
+      # print ("counter 2")
     if earnings > revenue:
       counter += 1
       print ("counter 3")
@@ -231,7 +253,7 @@ def home(request):
     # "queryset" : templist,
     # "he" : templist1
     # }
-    shef=API.objects.order_by('-id')[:4]
+    shef=API.objects.order_by('-id')[:x-1]
     shef5=URL.objects.order_by('-id')[:1]
     
     context={
